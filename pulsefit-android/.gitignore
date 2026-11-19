@@ -1,0 +1,15 @@
+*.iml
+.gradle
+.kotlin
+local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# IDE: share only run configurations, inspection profiles and code style
+/.idea/*
+!/.idea/runConfigurations.xml
+!/.idea/inspectionProfiles/
+!/.idea/codeStyles/
