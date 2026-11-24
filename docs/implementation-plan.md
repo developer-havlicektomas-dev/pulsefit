@@ -214,3 +214,5 @@ The product is **PulseFit**. Code lives in two independent Gradle builds in one 
 
 **10.4 Store readiness.** `pulsefit-prod` Supabase and backend, Play listing "PulseFit" (name checked for trademark conflicts), release signing and SHA-1s registered, privacy policy, Data Safety form, foreground-service declaration, account-deletion link.
 *Test:* internal-testing build installed from Play signs in with Google and email, records, and syncs against prod.
+
+<!-- CI check: docs-only change (HAV-169), not for merge -->
