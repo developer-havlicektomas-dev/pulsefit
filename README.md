@@ -10,6 +10,7 @@ Android + Wear OS app for recording outdoor activities (walking, running, inline
 | [docs/backend-spec.md](docs/backend-spec.md) | Spring Boot + Supabase specification, REST API contract, database schema |
 | [docs/design-prompt.md](docs/design-prompt.md) | Prompt for generating the UI designs |
 | [docs/implementation-plan.md](docs/implementation-plan.md) | Phased plan; every step has a test that proves it is done |
+| [docs/setup/supabase.md](docs/setup/supabase.md) | Supabase project setup checklist (step 0.2) and `scripts/verify-supabase.sh` |
 
 ## Repository layout
 

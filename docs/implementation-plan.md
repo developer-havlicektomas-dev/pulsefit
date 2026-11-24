@@ -2,7 +2,7 @@
 
 Each step is small enough to finish and verify on its own. **Test** says what proves the step is done: an automated test where possible, otherwise a manual check with an exact expected result. A step is not complete until its test passes.
 
-Specs: [android-spec.md](android-spec.md), [backend-spec.md](backend-spec.md). Designs come from [design-prompt.md](design-prompt.md) and are needed before Phase 3 UI work; Phases 0–2 do not depend on them.
+Specs: [android-spec.md](android-spec.md), [backend-spec.md](backend-spec.md). Designs: [PulseFit designs](https://claude.ai/artifact/9Hi2SwLrRDqgevR639tTxB?sk=7oNZcui3QZT2SmNUIgCEBw#page-092ca4173d47), generated from [design-prompt.md](design-prompt.md). They are needed before Phase 3 UI work; Phases 0–2 do not depend on them.
 
 Order: the backend (Phase 1) and the Android foundation + recording (Phases 2, 4, 5) are independent and can run in parallel. Sync (Phase 8) needs both. Wear (Phase 9) needs Phases 4–5.
 
