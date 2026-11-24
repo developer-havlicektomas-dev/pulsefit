@@ -1,0 +1,50 @@
+name: Android
+
+# Pull requests build only when the Android project or this workflow
+# changes; every push to main builds.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "pulsefit-android/**"
+      - ".github/workflows/android.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: pulsefit-android
+    steps:
+      - uses: actions/checkout@v7
+
+      # The Gradle daemon JVM is pinned to 25 in gradle/gradle-daemon-jvm.properties.
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+      - run: ./gradlew build --stacktrace
+
+      - name: Upload test and lint reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: android-reports
+          path: pulsefit-android/app/build/reports/
+          retention-days: 7
