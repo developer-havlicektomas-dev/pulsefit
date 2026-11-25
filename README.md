@@ -22,6 +22,8 @@ Android + Wear OS app for recording outdoor activities (walking, running, inline
 
 Each project is its own Gradle build; run `./gradlew build` inside its folder.
 
+The API tests start Postgres with Testcontainers, so Docker must be running. With colima, export `DOCKER_HOST=unix://$HOME/.colima/default/docker.sock` and `TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock` first. The API image is built with `docker build -t pulsefit-api .` in `pulsefit-api/` and configured only through the environment variables below (`docker run --env-file .env -p 8080:8080 pulsefit-api`).
+
 ### Local secrets (not in git)
 
 - `pulsefit-api/.env`: copy `pulsefit-api/.env.example` and fill in `SUPABASE_URL`, `DB_URL`, `DB_USER`, `DB_PASSWORD`, `SUPABASE_SERVICE_KEY`.
