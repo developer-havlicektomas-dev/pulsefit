@@ -1,0 +1,4 @@
+# Datasource comes from the Testcontainers @ServiceConnection.
+pulsefit:
+  supabase:
+    url: http://supabase.test

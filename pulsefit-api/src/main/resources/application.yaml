@@ -1,3 +1,43 @@
+# All environment-specific values come from environment variables
+# (docs/backend-spec.md §3, template in .env.example).
 spring:
   application:
     name: pulsefit
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  mvc:
+    problemdetails:
+      enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${pulsefit.supabase.url}/auth/v1
+          jwk-set-uri: ${pulsefit.supabase.url}/auth/v1/.well-known/jwks.json
+
+pulsefit:
+  supabase:
+    url: ${SUPABASE_URL}
+    # Used only for Auth Admin calls (account deletion, step 1.8).
+    service-key: ${SUPABASE_SERVICE_KEY:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
