@@ -23,13 +23,6 @@ Do this once for **`pulsefit-dev`** and once for **`pulsefit-prod`**. Everything
 - New projects already sign with an asymmetric ECC P-256 (ES256) key; confirm it is the **current** key under *JWT Signing Keys*. On an older project, create a standby ES256 key and rotate to it.
 - The API verifies only via JWKS, so the legacy HS256 secret is never used.
 
-## Status
-
-| Project | Ref | Region | Created | Notes |
-|---|---|---|---|---|
-| `pulsefit-dev` | `nszqupyiywxmngniiiep` | eu-central-1 | 2026-11-23 | JWKS serves one ES256 key. Email with confirmation on, redirect URL set, test user created; `verify-supabase.sh` passed 2026-11-23. Left: Google provider (with 0.3). |
-| `pulsefit-prod` | — | — | — | Not created: the free-plan organisation allows 2 active projects and one is taken by another project. Needed by step 1.9. |
-
 ## 5. Create a test user and verify
 
 - Auth → Users → **Add user** → *Create new user*, with *Auto Confirm User* on.
@@ -51,3 +44,10 @@ It prompts for the test user's password and checks that the JWKS has a key, that
 | Session pooler host | `DB_URL` / `DB_USER` (step 1.2, role `pulsefit_api`) | — |
 
 Local development uses `pulsefit-dev`; prod values go only into the deployment's secrets.
+
+## Status
+
+| Project | Ref | Region | Created | Notes |
+|---|---|---|---|---|
+| `pulsefit-dev` | `nszqupyiywxmngniiiep` | eu-central-1 | 2026-11-23 | JWKS serves one ES256 key. Email with confirmation on, redirect URL set, test user created; `verify-supabase.sh` passed 2026-11-23. Google provider enabled 2026-11-24 with the web and Android client ids (see [google-cloud.md](google-cloud.md)). Complete. |
+| `pulsefit-prod` | — | — | — | Not created: the free-plan organisation allows 2 active projects and one is taken by another project. Needed by step 1.9. |

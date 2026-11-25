@@ -11,6 +11,7 @@ Android + Wear OS app for recording outdoor activities (walking, running, inline
 | [docs/design-prompt.md](docs/design-prompt.md) | Prompt for generating the UI designs |
 | [docs/implementation-plan.md](docs/implementation-plan.md) | Phased plan; every step has a test that proves it is done |
 | [docs/setup/supabase.md](docs/setup/supabase.md) | Supabase project setup checklist (step 0.2) and `scripts/verify-supabase.sh` |
+| [docs/setup/google-cloud.md](docs/setup/google-cloud.md) | Google Cloud setup checklist: Maps key and OAuth clients (step 0.3) |
 
 ## Repository layout
 
@@ -25,7 +26,7 @@ Each project is its own Gradle build; run `./gradlew build` inside its folder.
 ### Local secrets (not in git)
 
 - `pulsefit-api/.env`: copy `pulsefit-api/.env.example` and fill in `SUPABASE_URL`, `DB_URL`, `DB_USER`, `DB_PASSWORD`, `SUPABASE_SERVICE_KEY`.
-- `pulsefit-android/local.properties`: `sdk.dir` (written by Android Studio). Later steps add `MAPS_API_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` and `GOOGLE_WEB_CLIENT_ID` here.
+- `pulsefit-android/local.properties`: `sdk.dir` (written by Android Studio), `MAPS_API_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` and `GOOGLE_WEB_CLIENT_ID`. See the setup checklists for where each value comes from.
 
 ## System overview
 
