@@ -5,7 +5,7 @@ Do this once for **`pulsefit-dev`** and once for **`pulsefit-prod`**. Everything
 ## 1. Create the project
 
 - New project, name `pulsefit-dev` (then `pulsefit-prod`), a region close to the users (both projects in the same region).
-- Generate a strong database password and keep it in your password manager. It is the `postgres` password; the API will use its own role `pulsefit_api` (created in step 1.2), not this one.
+- Generate a strong database password and keep it in your password manager. It is the `postgres` password; the API will use its own role `pulsefit_api` (created in §6, step 1.2), not this one.
 
 ## 2. Auth → Sign In / Providers
 
@@ -34,14 +34,41 @@ SUPABASE_URL=https://<ref>.supabase.co SUPABASE_ANON_KEY=<publishable key> TEST_
 
 It prompts for the test user's password and checks that the JWKS has a key, that the user gets a token, and that the token is asymmetrically signed with a JWKS key, issuer `${SUPABASE_URL}/auth/v1` and audience `authenticated`. Delete the test user from `pulsefit-prod` afterwards.
 
-## 6. Where the values go (never in git)
+## 6. Database role for the API (step 1.2)
+
+The API connects as its own role `pulsefit_api`, which owns schema `app` and everything Flyway creates in it ([backend-spec §3](../backend-spec.md#3-supabase-setup)). Run this once per project in the dashboard's **SQL Editor** (it runs as `postgres`), with a freshly generated password from your password manager:
+
+```sql
+create role pulsefit_api with login password '<generated password>';
+-- Owned by the API role, so Flyway (running as pulsefit_api) can create the tables
+-- and its history table there. No other privileges are needed.
+create schema app authorization pulsefit_api;
+```
+
+Leave `app` out of *Project Settings → Data API → Exposed schemas* (the default only exposes `public`).
+
+Then set `DB_URL` / `DB_USER` / `DB_PASSWORD` in `pulsefit-api/.env` from *Connect → Session pooler* (user `pulsefit_api.<ref>`) and start the API once (`./gradlew bootRun` or the Docker image). Flyway applies the migrations on startup.
+
+**Verify:** in the SQL Editor, `select tablename, rowsecurity, tableowner from pg_tables where schemaname = 'app';` lists `profiles`, `activities`, `track_points` and `flyway_schema_history`, owned by `pulsefit_api`, with `rowsecurity = true` on the three app tables. Then an anon request returns no data, with or without asking for schema `app`:
+
+```bash
+curl -s "$SUPABASE_URL/rest/v1/activities" -H "apikey: $SUPABASE_ANON_KEY"
+```
+
+```bash
+curl -s "$SUPABASE_URL/rest/v1/activities" -H "apikey: $SUPABASE_ANON_KEY" -H "Accept-Profile: app"
+```
+
+The first returns an error that `public.activities` does not exist; the second returns an error that the schema is not exposed. Neither returns rows.
+
+## 7. Where the values go (never in git)
 
 | Value | `pulsefit-api/.env` | `pulsefit-android/local.properties` |
 |---|---|---|
 | Project URL | `SUPABASE_URL` | `SUPABASE_URL` |
 | Publishable / anon key | — | `SUPABASE_ANON_KEY` |
 | Secret / service_role key | `SUPABASE_SERVICE_KEY` | never |
-| Session pooler host | `DB_URL` / `DB_USER` (step 1.2, role `pulsefit_api`) | — |
+| Session pooler host, `pulsefit_api` password | `DB_URL` / `DB_USER` / `DB_PASSWORD` (§6) | — |
 
 Local development uses `pulsefit-dev`; prod values go only into the deployment's secrets.
 

@@ -16,6 +16,12 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: app
+  flyway:
+    # Flyway creates schema `app` if missing and keeps its history table there.
+    schemas: app
   mvc:
     problemdetails:
       enabled: true
