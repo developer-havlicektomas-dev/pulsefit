@@ -32,7 +32,13 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: "21.0.13.1+2"
+
+      - name: Verify Temurin runtime
+        run: |
+          version="$(java -version 2>&1)"
+          printf '%s\n' "$version"
+          grep -Fq 'Temurin-21.0.13.1+2' <<< "$version"
 
       - uses: gradle/actions/setup-gradle@v6
         with:
